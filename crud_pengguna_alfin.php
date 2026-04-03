@@ -1,0 +1,67 @@
+<?php
+include 'koneksi_alfin.php';
+
+$sqlAlfin = "SELECT * FROM pengguna_alfin";
+$resultAlfin = $koneksiAlfin->query($sqlAlfin);
+?>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Pengguna - alfinTA</title>
+  <link rel="stylesheet" href="style_alfin.css">
+</head>
+
+<body>
+  <div class="container">
+    <div style="margin-top: 20px;">
+      <h2>Data Pengguna</h2>
+
+      <?php if (isset($_GET['success']) && $_GET['success'] === 'delete'): ?>
+        <div class="alert alert-success">
+          <p>✅ Data pengguna berhasil dihapus!</p>
+        </div>
+      <?php endif; ?>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $dataAlfin = mysqli_query($koneksiAlfin, "SELECT * FROM pengguna_alfin");
+          while ($dAlfin = mysqli_fetch_array($dataAlfin)) {
+            ?>
+            <tr>
+              <td><?php echo htmlspecialchars($dAlfin['id_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td><?php echo htmlspecialchars($dAlfin['nama_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td><?php echo htmlspecialchars($dAlfin['username_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td><?php echo htmlspecialchars($dAlfin['role_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td class="flex gap-10">
+                <a href="edit_alfin.php?id=<?php echo $dAlfin['id_pengguna_alfin']; ?>" class="btn-edit">Edit</a>
+                <a href="confirm_delete_pengguna_alfin.php?id=<?php echo $dAlfin['id_pengguna_alfin']; ?>" class="btn-danger">Hapus</a>
+              </td>
+            </tr>
+          <?php
+          }
+          ?>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="tambah_pengguna_alfin.php" class="btn-primary">+ Tambah Pengguna</a>
+        <a href="dashboard_alfin.php" class="btn-secondary">← Kembali ke Dashboard</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
