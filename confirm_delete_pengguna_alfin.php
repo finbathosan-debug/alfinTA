@@ -10,7 +10,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($id === 0) {
-    header("Location: crud_pengguna_alfin.php");
+    header("Location: pengguna_alfin.php");
     exit;
 }
 
@@ -20,7 +20,7 @@ $result = mysqli_stmt_get_result($query);
 
 if (mysqli_num_rows($result) === 0) {
     mysqli_stmt_close($query);
-    header("Location: crud_pengguna_alfin.php");
+    header("Location: pengguna_alfin.php");
     exit;
 }
 
@@ -62,7 +62,7 @@ mysqli_stmt_close($query);
                 <button type="submit" name="deletePenggunaAlfin" class="btn-danger" style="flex: 1;">
                     🗑️ Ya, Hapus Pengguna
                 </button>
-                <button type="button" class="btn-primary" style="flex: 1;" onclick="window.location.href='crud_pengguna_alfin.php'">
+                <button type="button" class="btn-primary" style="flex: 1;" onclick="window.location.href='pengguna_alfin.php'">
                     Batal
                 </button>
             </div>

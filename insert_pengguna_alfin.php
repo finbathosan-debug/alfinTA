@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['insertPenggunaAlfin']
     if ($insert) {
         if (mysqli_stmt_execute($insert, [$namaAlfin, $usernameAlfin, $passwordHash, $roleAlfin])) {
             mysqli_stmt_close($insert);
-            header("Location: crud_pengguna_alfin.php?success=insert");
+            header("Location: pengguna_alfin.php?success=insert");
             exit;
         } else {
             echo "Gagal menambah data. Coba lagi.";

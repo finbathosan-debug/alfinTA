@@ -30,7 +30,10 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         <h2>Dashboard Utama</h2>
         <p>Pilih menu di bawah untuk mengelola aplikasi</p>
         <div class="flex-center" style="margin-top: 30px;">
-            <a href="crud_pengguna_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Pengguna</a>
+            <a href="pengguna_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Pengguna</a>
+        </div>
+        <div class="flex-center" style="margin-top: 30px;">
+            <a href="produk_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Produk</a>
         </div>
     </div>
 </body>

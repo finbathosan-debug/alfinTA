@@ -12,7 +12,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($id === 0) {
-    header("Location: crud_pengguna_alfin.php");
+    header("Location: pengguna_alfin.php");
     exit;
 }
 
@@ -23,7 +23,7 @@ mysqli_stmt_execute($query);
 $result = mysqli_stmt_get_result($query);
 
 if (mysqli_num_rows($result) === 0) {
-    header("Location: crud_pengguna_alfin.php");
+    header("Location: pengguna_alfin.php");
     exit;
 }
 
@@ -44,7 +44,7 @@ mysqli_stmt_close($query);
     <div class="content-wrapper" style="max-width: 600px;">
         <h2>Edit Data Pengguna</h2>
 
-        <form method="post" action="update_alfin.php">
+        <form method="post" action="edit_aksi_alfin.php">
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($pengguna['id_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
 
             <div class="form-group">
@@ -79,7 +79,7 @@ mysqli_stmt_close($query);
 
             <div style="display: flex; gap: 10px; margin-top: 30px;">
                 <button type="submit" name="updateAlfin" class="btn-primary" style="flex: 1;">Simpan Perubahan</button>
-                <a href="crud_pengguna_alfin.php" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</a>
+                <a href="pengguna_alfin.php" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</a>
             </div>
         </form>
     </div>

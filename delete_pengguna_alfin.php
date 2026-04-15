@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletePenggunaAlfin']
     $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 
     if ($id === 0) {
-        header("Location: crud_pengguna_alfin.php");
+        header("Location: pengguna_alfin.php");
         exit;
     }
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletePenggunaAlfin']
 
     if (mysqli_stmt_num_rows($query) === 0) {
         mysqli_stmt_close($query);
-        header("Location: crud_pengguna_alfin.php");
+        header("Location: pengguna_alfin.php");
         exit;
     }
     mysqli_stmt_close($query);
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletePenggunaAlfin']
     if ($delete) {
         if (mysqli_stmt_execute($delete, [$id])) {
             mysqli_stmt_close($delete);
-            header("Location: crud_pengguna_alfin.php?success=delete");
+            header("Location: pengguna_alfin.php?success=delete");
             exit;
         } else {
             echo "Gagal menghapus data. Coba lagi.";
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletePenggunaAlfin']
         echo "Kesalahan server. Coba lagi.";
     }
 } else {
-    header("Location: crud_pengguna_alfin.php");
+    header("Location: pengguna_alfin.php");
     exit;
 }
 ?>

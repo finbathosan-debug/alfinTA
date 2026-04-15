@@ -51,7 +51,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 
             <div style="display: flex; gap: 10px; margin-top: 30px;">
                 <button type="submit" name="insertPenggunaAlfin" class="btn-primary" style="flex: 1;">Tambah Pengguna</button>
-                <button type="button" onclick="window.location.href='crud_pengguna_alfin.php'" class="btn-primary" style="flex: 1;">Batal</button>
+                <button type="button" onclick="window.location.href='pengguna_alfin.php'" class="btn-primary" style="flex: 1;">Batal</button>
             </div>
         </form>
     </div>
