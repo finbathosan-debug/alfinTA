@@ -9,4 +9,4 @@ session_destroy();
 // Redirect ke form login
 header("Location: form_login_alfin.php");
 exit;
-?>
+?> 
