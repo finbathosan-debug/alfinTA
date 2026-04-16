@@ -15,8 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $nama = trim($_POST['namaProdukAlfin'] ?? '');
 $harga = trim($_POST['hargaAlfin'] ?? '');
 $deskripsi = trim($_POST['deskripsiAlfin'] ?? '');
+$barcode = trim($_POST['barcodeAlfin'] ?? '');
 
-if ($nama === '' || $harga === '' || $deskripsi === '') {
+if ($nama === '' || $harga === '' || $deskripsi === '' || $barcode === '') {
     header("Location: tambah_produk_alfin.php?error=required");
     exit;
 }
@@ -28,7 +29,7 @@ if (!is_numeric($harga) || $harga < 0) {
 
 $stmt = mysqli_prepare(
     $koneksiAlfin,
-    "INSERT INTO produk_alfin (nama_produk_alfin, harga_jual_alfin, kategori_alfin) VALUES (?, ?, ?)"
+    "INSERT INTO produk_alfin (nama_produk_alfin, harga_jual_alfin, kategori_alfin, barcode_alfin) VALUES (?, ?, ?, ?)"
 );
 
 if (!$stmt) {
@@ -37,7 +38,7 @@ if (!$stmt) {
 }
 
 $harga = floatval($harga);
-mysqli_stmt_bind_param($stmt, 'sds', $nama, $harga, $deskripsi);
+mysqli_stmt_bind_param($stmt, 'sdss', $nama, $harga, $deskripsi, $barcode);
 $success = mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 

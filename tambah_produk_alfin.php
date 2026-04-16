@@ -6,6 +6,8 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     header("Location: form_login_alfin.php");
     exit;
 }
+
+$defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -41,6 +43,11 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             <div class="form-group">
                 <label for="deskripsiAlfin">Kategori</label>
                 <textarea id="deskripsiAlfin" name="deskripsiAlfin" placeholder="Masukkan kategori produk" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="barcodeAlfin">Barcode</label>
+                <input type="text" id="barcodeAlfin" name="barcodeAlfin" placeholder="Masukkan barcode produk" value="<?php echo htmlspecialchars($defaultBarcode, ENT_QUOTES, 'UTF-8'); ?>" required>
             </div>
 
             <div style="display: flex; gap: 10px; margin-top: 30px;">

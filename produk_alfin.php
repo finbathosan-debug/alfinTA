@@ -32,6 +32,7 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
             <th>Nama Produk</th>
             <th>Harga</th>
             <th>Kategori</th>
+            <th>Barcode</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -45,6 +46,7 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
               <td><?php echo htmlspecialchars($dAlfin['nama_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['harga_jual_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['kategori_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td><?php echo htmlspecialchars($dAlfin['barcode_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td class="flex gap-10">
                 <a href="edit_produk_alfin.php?id=<?php echo $dAlfin['id_produk_alfin']; ?>" class="btn-edit">Edit</a>
                 <a href="confirm_delete_produk_alfin.php?id=<?php echo $dAlfin['id_produk_alfin']; ?>" class="btn-danger">Hapus</a>

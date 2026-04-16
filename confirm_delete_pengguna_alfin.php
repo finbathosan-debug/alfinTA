@@ -15,7 +15,8 @@ if ($id === 0) {
 }
 
 $query = mysqli_prepare($koneksiAlfin, "SELECT id_pengguna_alfin, nama_pengguna_alfin FROM pengguna_alfin WHERE id_pengguna_alfin = ? LIMIT 1");
-mysqli_stmt_execute($query, [$id]);
+mysqli_stmt_bind_param($query, 'i', $id);
+mysqli_stmt_execute($query);
 $result = mysqli_stmt_get_result($query);
 
 if (mysqli_num_rows($result) === 0) {
@@ -48,23 +49,19 @@ mysqli_stmt_close($query);
 
         <div style="background: var(--bg-secondary); padding: 20px; border-radius: var(--radius-md); margin: 20px 0; border: 1px solid var(--border-color);">
             <p><strong>Nama:</strong> <?php echo htmlspecialchars($user['nama_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?></p>
-            <p><strong>ID:</strong> <?php echo htmlspecialchars($user['id_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?></p>
         </div>
 
-        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 30px;">
-            Tindakan ini tidak dapat dibatalkan. Data pengguna akan dihapus secara permanen.
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">
+            Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin menghapus pengguna ini?
         </p>
 
-        <form method="post" action="delete_pengguna_alfin.php">
+        <form method="post" action="hapus_aksi_pengguna_alfin.php">
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($user['id_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="deletePenggunaAlfin" value="1">
 
             <div style="display: flex; gap: 10px;">
-                <button type="submit" name="deletePenggunaAlfin" class="btn-danger" style="flex: 1;">
-                    🗑️ Ya, Hapus Pengguna
-                </button>
-                <button type="button" class="btn-primary" style="flex: 1;" onclick="window.location.href='pengguna_alfin.php'">
-                    Batal
-                </button>
+                <button type="submit" class="btn-danger" style="flex: 1;">Ya, Hapus Pengguna</button>
+                <a href="pengguna_alfin.php" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</a>
             </div>
         </form>
     </div>

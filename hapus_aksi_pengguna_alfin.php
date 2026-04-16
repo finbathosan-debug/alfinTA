@@ -16,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletePenggunaAlfin']
     }
 
     $query = mysqli_prepare($koneksiAlfin, "SELECT id_pengguna_alfin FROM pengguna_alfin WHERE id_pengguna_alfin = ? LIMIT 1");
-    mysqli_stmt_execute($query, [$id]);
+    mysqli_stmt_bind_param($query, 'i', $id);
+    mysqli_stmt_execute($query);
     mysqli_stmt_store_result($query);
 
     if (mysqli_stmt_num_rows($query) === 0) {
@@ -29,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['deletePenggunaAlfin']
     $delete = mysqli_prepare($koneksiAlfin, "DELETE FROM pengguna_alfin WHERE id_pengguna_alfin = ? LIMIT 1");
 
     if ($delete) {
-        if (mysqli_stmt_execute($delete, [$id])) {
+        mysqli_stmt_bind_param($delete, 'i', $id);
+        if (mysqli_stmt_execute($delete)) {
             mysqli_stmt_close($delete);
             header("Location: pengguna_alfin.php?success=delete");
             exit;
