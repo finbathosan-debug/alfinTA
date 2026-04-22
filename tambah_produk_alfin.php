@@ -17,6 +17,7 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Produk - alfinTA</title>
     <link rel="stylesheet" href="style_alfin.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 
 <body>
@@ -36,18 +37,33 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
             </div>
 
             <div class="form-group">
-                <label for="hargaAlfin">Harga</label>
-                <input type="number" id="hargaAlfin" name="hargaAlfin" placeholder="Masukkan harga produk" min="0" required>
+                <label for="hargaBeliAlfin">Harga Beli</label>
+                <input type="number" id="hargaBeliAlfin" name="hargaBeliAlfin" placeholder="Masukkan harga beli produk" min="0" required>
             </div>
 
             <div class="form-group">
-                <label for="deskripsiAlfin">Kategori</label>
-                <textarea id="deskripsiAlfin" name="deskripsiAlfin" placeholder="Masukkan kategori produk" required></textarea>
+                <label for="hargaJualAlfin">Harga Jual</label>
+                <input type="number" id="hargaJualAlfin" name="hargaJualAlfin" placeholder="Masukkan harga jual produk" min="0" required>
             </div>
 
             <div class="form-group">
-                <label for="barcodeAlfin">Barcode</label>
-                <input type="text" id="barcodeAlfin" name="barcodeAlfin" placeholder="Masukkan barcode produk" value="<?php echo htmlspecialchars($defaultBarcode, ENT_QUOTES, 'UTF-8'); ?>" required>
+                <label for="stokAlfin">Stok</label>
+                <input type="number" id="stokAlfin" name="stokAlfin" placeholder="Masukkan stok produk" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="kategoriAlfin">Kategori</label>
+                <textarea id="kategoriAlfin" name="kategoriAlfin" placeholder="Masukkan kategori produk" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Barcode (Otomatis)</label>
+                <input type="hidden" id="barcodeAlfin" name="barcodeAlfin" value="<?php echo htmlspecialchars($defaultBarcode, ENT_QUOTES, 'UTF-8'); ?>">
+                <div id="barcodeDisplay" style="text-align: center; margin-top: 10px;">
+                    <svg id="barcode"></svg>
+                    <p id="barcodeText" style="font-family: monospace; font-size: 12px; margin-top: 5px;"></p>
+                    <button type="button" onclick="printBarcode()" class="btn-secondary" style="margin-top: 10px;">Cetak Barcode</button>
+                </div>
             </div>
 
             <div style="display: flex; gap: 10px; margin-top: 30px;">
@@ -56,6 +72,51 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
             </div>
         </form>
     </div>
+
+    <script>
+        // Generate barcode on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const barcodeInput = document.getElementById('barcodeAlfin');
+            const barcodeSvg = document.getElementById('barcode');
+            const barcodeText = document.getElementById('barcodeText');
+
+            function updateBarcode() {
+                const value = barcodeInput.value;
+                if (value) {
+                    JsBarcode(barcodeSvg, value, {
+                        format: "CODE128",
+                        width: 2,
+                        height: 60,
+                        displayValue: false
+                    });
+                    barcodeText.textContent = value;
+                } else {
+                    barcodeSvg.innerHTML = '';
+                    barcodeText.textContent = '';
+                }
+            }
+
+            updateBarcode(); // Initial generate
+        });
+
+        function printBarcode() {
+            const printWindow = window.open('', '_blank');
+            const barcodeSvg = document.getElementById('barcode').outerHTML;
+            const barcodeText = document.getElementById('barcodeText').textContent;
+            printWindow.document.write(`
+                <html>
+                <head><title>Barcode - ${barcodeText}</title></head>
+                <body style="text-align: center; margin: 20px;">
+                    <h2>Barcode Produk</h2>
+                    ${barcodeSvg}
+                    <p style="font-family: monospace; font-size: 18px; margin-top: 10px;">${barcodeText}</p>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
 </body>
 
 </html>

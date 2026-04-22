@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2026 at 06:32 AM
+-- Generation Time: Apr 22, 2026 at 09:23 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,9 +45,16 @@ CREATE TABLE `pengguna_alfin` (
   `id_pengguna_alfin` int(11) NOT NULL,
   `nama_pengguna_alfin` varchar(35) NOT NULL,
   `username_alfin` varchar(35) NOT NULL,
-  `password_alfin` varchar(8) NOT NULL,
+  `password_alfin` varchar(225) NOT NULL,
   `role_alfin` enum('admin','kasir') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pengguna_alfin`
+--
+
+INSERT INTO `pengguna_alfin` (`id_pengguna_alfin`, `nama_pengguna_alfin`, `username_alfin`, `password_alfin`, `role_alfin`) VALUES
+(4, 'alfin bathosan', 'alfinganteng97', '$2y$10$jZCDS4AKoZrnxlIRc1ZgkOeOviKleM9y0c79Qaj4c65EdcUtapd1C', 'admin');
 
 -- --------------------------------------------------------
 
@@ -64,6 +71,13 @@ CREATE TABLE `produk_alfin` (
   `barcode_alfin` varchar(35) NOT NULL,
   `kategori_alfin` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `produk_alfin`
+--
+
+INSERT INTO `produk_alfin` (`id_produk_alfin`, `nama_produk_alfin`, `harga_beli_alfin`, `harga_jual_alfin`, `stok_alfin`, `barcode_alfin`, `kategori_alfin`) VALUES
+(4, 'aqua', 3000, 6000, 100, 'BC4736082951', 'minuman');
 
 -- --------------------------------------------------------
 
@@ -123,13 +137,13 @@ ALTER TABLE `detail_transaksi_alfin`
 -- AUTO_INCREMENT for table `pengguna_alfin`
 --
 ALTER TABLE `pengguna_alfin`
-  MODIFY `id_pengguna_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pengguna_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `produk_alfin`
 --
 ALTER TABLE `produk_alfin`
-  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `transaksi_alfin`

@@ -61,18 +61,33 @@ if (!$produk) {
             </div>
 
             <div class="form-group">
-                <label for="hargaAlfin">Harga Jual</label>
-                <input type="number" id="hargaAlfin" name="hargaAlfin" placeholder="Masukkan harga produk" value="<?php echo htmlspecialchars($produk['harga_jual_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
+                <label for="hargaBeliAlfin">Harga Beli</label>
+                <input type="number" id="hargaBeliAlfin" name="hargaBeliAlfin" placeholder="Masukkan harga beli produk" value="<?php echo htmlspecialchars($produk['harga_beli_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
             </div>
 
             <div class="form-group">
-                <label for="deskripsiAlfin">Kategori</label>
-                <textarea id="deskripsiAlfin" name="deskripsiAlfin" placeholder="Masukkan kategori produk" required><?php echo htmlspecialchars($produk['kategori_alfin'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+                <label for="hargaJualAlfin">Harga Jual</label>
+                <input type="number" id="hargaJualAlfin" name="hargaJualAlfin" placeholder="Masukkan harga jual produk" value="<?php echo htmlspecialchars($produk['harga_jual_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
             </div>
 
             <div class="form-group">
-                <label for="barcodeAlfin">Barcode</label>
-                <input type="text" id="barcodeAlfin" name="barcodeAlfin" placeholder="Masukkan barcode produk" value="<?php echo htmlspecialchars($produk['barcode_alfin'], ENT_QUOTES, 'UTF-8'); ?>" required>
+                <label for="stokAlfin">Stok</label>
+                <input type="number" id="stokAlfin" name="stokAlfin" placeholder="Masukkan stok produk" value="<?php echo htmlspecialchars($produk['stok_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="kategoriAlfin">Kategori</label>
+                <textarea id="kategoriAlfin" name="kategoriAlfin" placeholder="Masukkan kategori produk" required><?php echo htmlspecialchars($produk['kategori_alfin'], ENT_QUOTES, 'UTF-8'); ?></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Barcode</label>
+                <input type="hidden" id="barcodeAlfin" name="barcodeAlfin" value="<?php echo htmlspecialchars($produk['barcode_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
+                <div id="barcodeDisplay" style="text-align: center; margin-top: 10px;">
+                    <svg id="barcode"></svg>
+                    <p id="barcodeText" style="font-family: monospace; font-size: 12px; margin-top: 5px;"></p>
+                    <button type="button" onclick="printBarcode()" class="btn-secondary" style="margin-top: 10px;">Cetak Barcode</button>
+                </div>
             </div>
 
             <div style="display: flex; gap: 10px; margin-top: 30px;">
@@ -81,6 +96,77 @@ if (!$produk) {
             </div>
         </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script>
+        // Generate barcode on load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof JsBarcode === 'undefined') {
+                console.error('JsBarcode library not loaded');
+                return;
+            }
+
+            const barcodeInput = document.getElementById('barcodeAlfin');
+            const barcodeSvg = document.getElementById('barcode');
+            const barcodeText = document.getElementById('barcodeText');
+
+            function updateBarcode() {
+                const value = barcodeInput.value;
+                if (value) {
+                    try {
+                        JsBarcode(barcodeSvg, value, {
+                            format: "CODE128",
+                            width: 2,
+                            height: 60,
+                            displayValue: false
+                        });
+                        barcodeText.textContent = value;
+                    } catch (error) {
+                        console.error('Error generating barcode:', error);
+                        barcodeText.textContent = 'Error generating barcode';
+                    }
+                } else {
+                    barcodeSvg.innerHTML = '';
+                    barcodeText.textContent = '';
+                }
+            }
+
+            updateBarcode(); // Initial generate
+        });
+
+        function printBarcode() {
+            const barcodeSvg = document.getElementById('barcode');
+            const barcodeText = document.getElementById('barcodeText').textContent;
+            if (!barcodeSvg || !barcodeText) {
+                alert('Barcode belum dihasilkan.');
+                return;
+            }
+
+            const printWindow = window.open('', '_blank');
+            const svgContent = barcodeSvg.outerHTML;
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Print Barcode</title>
+                    <style>
+                        body { text-align: center; font-family: Arial, sans-serif; margin: 20px; }
+                        svg { margin: 20px auto; display: block; }
+                        p { font-size: 14px; font-family: monospace; }
+                    </style>
+                </head>
+                <body>
+                    <h2>Barcode Produk</h2>
+                    ${svgContent}
+                    <p>${barcodeText}</p>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+    </script>
 </body>
 
 </html>

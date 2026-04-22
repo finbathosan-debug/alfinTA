@@ -12,6 +12,7 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kelola Produk - alfinTA</title>
   <link rel="stylesheet" href="style_alfin.css">
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 
 <body>
@@ -46,7 +47,7 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
               <td><?php echo htmlspecialchars($dAlfin['nama_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['harga_jual_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['kategori_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
-              <td><?php echo htmlspecialchars($dAlfin['barcode_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td><svg id="barcode-<?php echo $dAlfin['id_produk_alfin']; ?>" style="width: 120px; height: 50px;"></svg></td>
               <td class="flex gap-10">
                 <a href="edit_produk_alfin.php?id=<?php echo $dAlfin['id_produk_alfin']; ?>" class="btn-edit">Edit</a>
                 <a href="confirm_delete_produk_alfin.php?id=<?php echo $dAlfin['id_produk_alfin']; ?>" class="btn-danger">Hapus</a>
@@ -64,6 +65,18 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      <?php
+      $dataAlfin2 = mysqli_query($koneksiAlfin, "SELECT id_produk_alfin, barcode_alfin FROM produk_alfin");
+      while ($d = mysqli_fetch_array($dataAlfin2)) {
+        $barcodeValue = addslashes($d['barcode_alfin']);
+        echo "JsBarcode('#barcode-" . $d['id_produk_alfin'] . "', '" . $barcodeValue . "', { format: 'CODE128', width: 1.5, height: 50, displayValue: false });";
+      }
+      ?>
+    });
+  </script>
 </body>
 
 </html>

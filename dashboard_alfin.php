@@ -18,7 +18,7 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
 <body>
     <header>
         <div class="container">
-            <h1 style="margin: 0; font-size: 28px;">alfinTA</h1>
+            <h1 style="margin: 0; font-size: 28px;">Aplikasi Minimarket Barcode</h1>
             <div class="user-info">
                 <span>Selamat Datang, <strong><?php echo htmlspecialchars($_SESSION['user'], ENT_QUOTES, 'UTF-8'); ?></strong></span>
                 <a href="logout_alfin.php" class="btn-danger" style="padding: 8px 16px; font-size: 14px; margin: 0;">Logout</a>
@@ -37,9 +37,6 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
         </div>
         <div class="flex-center" style="margin-top: 30px;">
             <a href="laporan_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">📊 Laporan Penjualan</a>
-        </div>
-        <div class="flex-center" style="margin-top: 30px;">
-            <a href="transaksi_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">🛒 Transaksi Penjualan</a>
         </div>
     </div>
 </body>
