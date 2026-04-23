@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2026 at 09:23 AM
+-- Generation Time: Apr 23, 2026 at 04:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -77,7 +77,8 @@ CREATE TABLE `produk_alfin` (
 --
 
 INSERT INTO `produk_alfin` (`id_produk_alfin`, `nama_produk_alfin`, `harga_beli_alfin`, `harga_jual_alfin`, `stok_alfin`, `barcode_alfin`, `kategori_alfin`) VALUES
-(4, 'aqua', 3000, 6000, 100, 'BC4736082951', 'minuman');
+(4, 'aqua', 3000, 6000, 100, 'BC4736082951', 'minuman'),
+(5, 'mie goreng', 2500, 3500, 99, 'BC3827461590', 'makanan');
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,7 @@ ALTER TABLE `pengguna_alfin`
 -- AUTO_INCREMENT for table `produk_alfin`
 --
 ALTER TABLE `produk_alfin`
-  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `transaksi_alfin`
