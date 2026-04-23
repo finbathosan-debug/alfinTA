@@ -61,13 +61,8 @@ if (!$produk) {
             </div>
 
             <div class="form-group">
-                <label for="hargaBeliAlfin">Harga Beli</label>
-                <input type="number" id="hargaBeliAlfin" name="hargaBeliAlfin" placeholder="Masukkan harga beli produk" value="<?php echo htmlspecialchars($produk['harga_beli_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
-            </div>
-
-            <div class="form-group">
-                <label for="hargaJualAlfin">Harga Jual</label>
-                <input type="number" id="hargaJualAlfin" name="hargaJualAlfin" placeholder="Masukkan harga jual produk" value="<?php echo htmlspecialchars($produk['harga_jual_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
+                <label for="hargaAlfin">Harga</label>
+                <input type="number" id="hargaAlfin" name="hargaAlfin" placeholder="Masukkan harga produk" value="<?php echo htmlspecialchars($produk['harga_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
             </div>
 
             <div class="form-group">

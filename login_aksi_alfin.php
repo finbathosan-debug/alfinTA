@@ -13,14 +13,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['loginAlfin'])) {
     }
 
     // Gunakan prepared statement untuk menghindari SQL injection
-    $dataAlfin = mysqli_prepare($koneksiAlfin, "SELECT id_pengguna_alfin, username_alfin, password_alfin FROM pengguna_alfin WHERE username_alfin = ? LIMIT 1");
+    $dataAlfin = mysqli_prepare($koneksiAlfin, "SELECT id_pengguna_alfin, username_alfin, password_alfin, role_alfin FROM pengguna_alfin WHERE username_alfin = ? LIMIT 1");
     if ($dataAlfin) {
         mysqli_stmt_bind_param($dataAlfin, 's', $usernameAlfin);
         mysqli_stmt_execute($dataAlfin);
         mysqli_stmt_store_result($dataAlfin);
 
         if (mysqli_stmt_num_rows($dataAlfin) === 1) {
-            mysqli_stmt_bind_result($dataAlfin, $dbUserId, $dbUsername, $dbPasswordHash);
+            mysqli_stmt_bind_result($dataAlfin, $dbUserId, $dbUsername, $dbPasswordHash, $dbRole);
             mysqli_stmt_fetch($dataAlfin);
 
             // Verifikasi password yang tersimpan hash
@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['loginAlfin'])) {
                 $_SESSION['login'] = true;
                 $_SESSION['user'] = $dbUsername;
                 $_SESSION['user_id'] = $dbUserId;
+                $_SESSION['role'] = $dbRole;
                 header("Location: dashboard_alfin.php");
                 exit;
             }

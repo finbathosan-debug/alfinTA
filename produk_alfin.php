@@ -45,7 +45,7 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
             <tr>
               <td><?php echo htmlspecialchars($dAlfin['id_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['nama_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
-              <td><?php echo htmlspecialchars($dAlfin['harga_jual_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td><?php echo htmlspecialchars($dAlfin['harga_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['kategori_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><svg id="barcode-<?php echo $dAlfin['id_produk_alfin']; ?>" style="width: 120px; height: 50px;"></svg></td>
               <td class="flex gap-10">

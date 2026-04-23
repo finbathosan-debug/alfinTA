@@ -14,29 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $nama = trim($_POST['namaProdukAlfin'] ?? '');
-$hargaBeli = trim($_POST['hargaBeliAlfin'] ?? '');
-$hargaJual = trim($_POST['hargaJualAlfin'] ?? '');
+$harga = trim($_POST['hargaAlfin'] ?? '');
 $stok = trim($_POST['stokAlfin'] ?? '');
 $kategori = trim($_POST['kategoriAlfin'] ?? '');
 $barcode = trim($_POST['barcodeAlfin'] ?? '');
 
-if ($id <= 0 || $nama === '' || $hargaBeli === '' || $hargaJual === '' || $stok === '' || $kategori === '' || $barcode === '') {
+if ($id <= 0 || $nama === '' || $harga === '' || $stok === '' || $kategori === '' || $barcode === '') {
     header("Location: edit_produk_alfin.php?id={$id}&error=required");
     exit;
 }
 
-if (!is_numeric($hargaBeli) || $hargaBeli < 0 || !is_numeric($hargaJual) || $hargaJual < 0 || !is_numeric($stok) || $stok < 0) {
+if (!is_numeric($harga) || $harga < 0 || !is_numeric($stok) || $stok < 0) {
     header("Location: edit_produk_alfin.php?id={$id}&error=invalid");
     exit;
 }
 
-$hargaBeli = floatval($hargaBeli);
-$hargaJual = floatval($hargaJual);
+$harga = floatval($harga);
 $stok = intval($stok);
 
 $stmt = mysqli_prepare(
     $koneksiAlfin,
-    "UPDATE produk_alfin SET nama_produk_alfin = ?, harga_beli_alfin = ?, harga_jual_alfin = ?, stok_alfin = ?, barcode_alfin = ?, kategori_alfin = ? WHERE id_produk_alfin = ?"
+    "UPDATE produk_alfin SET nama_produk_alfin = ?, harga_alfin = ?, stok_alfin = ?, barcode_alfin = ?, kategori_alfin = ? WHERE id_produk_alfin = ?"
 );
 
 if (!$stmt) {
@@ -44,7 +42,7 @@ if (!$stmt) {
     exit;
 }
 
-mysqli_stmt_bind_param($stmt, 'sddissi', $nama, $hargaBeli, $hargaJual, $stok, $barcode, $kategori, $id);
+mysqli_stmt_bind_param($stmt, 'sdissi', $nama, $harga, $stok, $barcode, $kategori, $id);
 $success = mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 

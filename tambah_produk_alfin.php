@@ -37,13 +37,8 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
             </div>
 
             <div class="form-group">
-                <label for="hargaBeliAlfin">Harga Beli</label>
-                <input type="number" id="hargaBeliAlfin" name="hargaBeliAlfin" placeholder="Masukkan harga beli produk" min="0" required>
-            </div>
-
-            <div class="form-group">
-                <label for="hargaJualAlfin">Harga Jual</label>
-                <input type="number" id="hargaJualAlfin" name="hargaJualAlfin" placeholder="Masukkan harga jual produk" min="0" required>
+                <label for="hargaAlfin">Harga</label>
+                <input type="number" id="hargaAlfin" name="hargaAlfin" placeholder="Masukkan harga produk" min="0" required>
             </div>
 
             <div class="form-group">

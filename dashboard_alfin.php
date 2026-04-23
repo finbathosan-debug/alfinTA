@@ -29,18 +29,24 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     <div class="dashboard-wrapper">
         <h2>Dashboard Utama</h2>
         <p>Pilih menu di bawah untuk mengelola aplikasi</p>
-        <div class="flex-center" style="margin-top: 30px;">
-            <a href="pengguna_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Pengguna</a>
-        </div>
-        <div class="flex-center" style="margin-top: 30px;">
-            <a href="produk_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Produk</a>
-        </div>
-        <div class="flex-center" style="margin-top: 30px;">
-            <a href="transaksi_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">💳 Transaksi Penjualan</a>
-        </div>
-        <div class="flex-center" style="margin-top: 30px;">
-            <a href="laporan_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">📊 Laporan Penjualan</a>
-        </div>
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <div class="flex-center" style="margin-top: 30px;">
+                <a href="pengguna_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Pengguna</a>
+            </div>
+            <div class="flex-center" style="margin-top: 30px;">
+                <a href="produk_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Produk</a>
+            </div>
+        <?php else: ?>
+            <div class="flex-center" style="margin-top: 30px;">
+                <a href="produk_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Produk</a>
+            </div>
+            <div class="flex-center" style="margin-top: 30px;">
+                <a href="transaksi_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">💳 Transaksi Penjualan</a>
+            </div>
+            <div class="flex-center" style="margin-top: 30px;">
+                <a href="laporan_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">📊 Laporan Penjualan</a>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>

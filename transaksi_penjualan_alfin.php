@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['barcode'])) {
             foreach ($_SESSION['keranjang'] as &$item) {
                 if ($item['id_produk'] == $produk['id_produk_alfin']) {
                     $item['jumlah']++;
-                    $item['subtotal'] = $item['jumlah'] * $produk['harga_jual_alfin'];
+                    $item['subtotal'] = $item['jumlah'] * $produk['harga_alfin'];
                     $found = true;
                     break;
                 }
@@ -35,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['barcode'])) {
                 $_SESSION['keranjang'][] = [
                     'id_produk' => $produk['id_produk_alfin'],
                     'nama' => $produk['nama_produk_alfin'],
-                    'harga' => $produk['harga_jual_alfin'],
+                    'harga' => $produk['harga_alfin'],
                     'jumlah' => 1,
-                    'subtotal' => $produk['harga_jual_alfin']
+                    'subtotal' => $produk['harga_alfin']
                 ];
             }
             echo json_encode(['success' => true, 'message' => 'Produk ditambahkan ke keranjang']);
@@ -153,7 +153,7 @@ foreach ($_SESSION['keranjang'] as $item) {
                 <?php foreach ($_SESSION['keranjang'] as $index => $item): ?>
                     <div class="cart-item">
                         <span><?php echo htmlspecialchars($item['nama']); ?> (Rp <?php echo number_format($item['harga']); ?>)</span>
-                        <input type="number" value="<?php echo $item['jumlah']; ?>" min="1" onchange="updateQuantity(<?php echo $index; ?>, this.value)">
+                        <label>Jumlah:</label> <input type="number" value="<?php echo $item['jumlah']; ?>" min="1" onchange="updateQuantity(<?php echo $index; ?>, this.value)">
                         <span>Rp <?php echo number_format($item['subtotal']); ?></span>
                         <button onclick="removeFromCart(<?php echo $index; ?>)">Hapus</button>
                     </div>

@@ -13,25 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $nama = trim($_POST['namaProdukAlfin'] ?? '');
-$hargaBeli = trim($_POST['hargaBeliAlfin'] ?? '');
-$hargaJual = trim($_POST['hargaJualAlfin'] ?? '');
+$harga = trim($_POST['hargaAlfin'] ?? '');
 $stok = trim($_POST['stokAlfin'] ?? '');
 $kategori = trim($_POST['kategoriAlfin'] ?? '');
 $barcode = trim($_POST['barcodeAlfin'] ?? '');
 
-if ($nama === '' || $hargaBeli === '' || $hargaJual === '' || $stok === '' || $kategori === '' || $barcode === '') {
+if ($nama === '' || $harga === '' || $stok === '' || $kategori === '' || $barcode === '') {
     header("Location: tambah_produk_alfin.php?error=required");
     exit;
 }
 
-if (!is_numeric($hargaBeli) || $hargaBeli < 0 || !is_numeric($hargaJual) || $hargaJual < 0 || !is_numeric($stok) || $stok < 0) {
+if (!is_numeric($harga) || $harga < 0 || !is_numeric($stok) || $stok < 0) {
     header("Location: tambah_produk_alfin.php?error=invalid");
     exit;
 }
 
 $stmt = mysqli_prepare(
     $koneksiAlfin,
-    "INSERT INTO produk_alfin (nama_produk_alfin, harga_beli_alfin, harga_jual_alfin, stok_alfin, barcode_alfin, kategori_alfin) VALUES (?, ?, ?, ?, ?, ?)"
+    "INSERT INTO produk_alfin (nama_produk_alfin, harga_alfin, stok_alfin, barcode_alfin, kategori_alfin) VALUES (?, ?, ?, ?, ?)"
 );
 
 if (!$stmt) {
@@ -39,10 +38,9 @@ if (!$stmt) {
     exit;
 }
 
-$hargaBeli = floatval($hargaBeli);
-$hargaJual = floatval($hargaJual);
+$harga = floatval($harga);
 $stok = intval($stok);
-mysqli_stmt_bind_param($stmt, 'sddiss', $nama, $hargaBeli, $hargaJual, $stok, $barcode, $kategori);
+mysqli_stmt_bind_param($stmt, 'sdiss', $nama, $harga, $stok, $barcode, $kategori);
 $success = mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 

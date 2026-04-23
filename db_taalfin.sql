@@ -65,8 +65,7 @@ INSERT INTO `pengguna_alfin` (`id_pengguna_alfin`, `nama_pengguna_alfin`, `usern
 CREATE TABLE `produk_alfin` (
   `id_produk_alfin` int(11) NOT NULL,
   `nama_produk_alfin` varchar(35) NOT NULL,
-  `harga_beli_alfin` int(35) NOT NULL,
-  `harga_jual_alfin` int(35) NOT NULL,
+  `harga_alfin` int(35) NOT NULL,
   `stok_alfin` int(10) NOT NULL,
   `barcode_alfin` varchar(35) NOT NULL,
   `kategori_alfin` varchar(50) NOT NULL
@@ -76,9 +75,9 @@ CREATE TABLE `produk_alfin` (
 -- Dumping data for table `produk_alfin`
 --
 
-INSERT INTO `produk_alfin` (`id_produk_alfin`, `nama_produk_alfin`, `harga_beli_alfin`, `harga_jual_alfin`, `stok_alfin`, `barcode_alfin`, `kategori_alfin`) VALUES
-(4, 'aqua', 3000, 6000, 100, 'BC4736082951', 'minuman'),
-(5, 'mie goreng', 2500, 3500, 99, 'BC3827461590', 'makanan');
+INSERT INTO `produk_alfin` (`id_produk_alfin`, `nama_produk_alfin`, `harga_alfin`, `stok_alfin`, `barcode_alfin`, `kategori_alfin`) VALUES
+(4, 'aqua', 6000, 100, 'BC4736082951', 'minuman'),
+(5, 'mie goreng', 3500, 99, 'BC3827461590', 'makanan');
 
 -- --------------------------------------------------------
 

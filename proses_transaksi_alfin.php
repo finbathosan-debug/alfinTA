@@ -54,8 +54,8 @@ try {
     // Kosongkan keranjang setelah transaksi berhasil
     $_SESSION['keranjang'] = [];
 
-    // Redirect ke halaman sukses
-    header("Location: transaksi_penjualan_alfin.php?success=transaction&id=$idTransaksi");
+    // Redirect ke halaman struk
+    header("Location: struk_alfin.php?id=$idTransaksi");
     exit;
 
 } catch (Exception $e) {
