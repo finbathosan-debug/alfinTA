@@ -25,7 +25,7 @@ foreach ($_SESSION['keranjang'] as $item) {
 }
 
 // Mulai transaksi database
-mysqli_begin_transaction($koneksiAlfin);
+mysqli_autocommit($koneksiAlfin, false);
 
 try {
     // 1. Insert ke tabel transaksi_alfin
@@ -49,6 +49,7 @@ try {
 
     // Commit transaksi
     mysqli_commit($koneksiAlfin);
+    mysqli_autocommit($koneksiAlfin, true);
 
     // Kosongkan keranjang setelah transaksi berhasil
     $_SESSION['keranjang'] = [];
@@ -60,6 +61,7 @@ try {
 } catch (Exception $e) {
     // Rollback jika ada error
     mysqli_rollback($koneksiAlfin);
+    mysqli_autocommit($koneksiAlfin, true);
     header("Location: transaksi_penjualan_alfin.php?error=transaction_failed");
     exit;
 }

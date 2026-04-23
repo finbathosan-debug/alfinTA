@@ -36,6 +36,9 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             <a href="produk_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">Kelola Produk</a>
         </div>
         <div class="flex-center" style="margin-top: 30px;">
+            <a href="transaksi_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">💳 Transaksi Penjualan</a>
+        </div>
+        <div class="flex-center" style="margin-top: 30px;">
             <a href="laporan_penjualan_alfin.php" class="btn-primary" style="padding: 15px 40px; font-size: 16px;">📊 Laporan Penjualan</a>
         </div>
     </div>
