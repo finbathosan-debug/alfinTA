@@ -44,6 +44,12 @@ try {
     foreach ($_SESSION['keranjang'] as $item) {
         mysqli_stmt_bind_param($queryDetail, 'iiii', $idTransaksi, $item['id_produk'], $item['jumlah'], $item['subtotal']);
         mysqli_stmt_execute($queryDetail);
+        
+        // 3. Kurangi stok produk
+        $queryUpdateStok = mysqli_prepare($koneksiAlfin, "UPDATE produk_alfin SET stok_alfin = stok_alfin - ? WHERE id_produk_alfin = ?");
+        mysqli_stmt_bind_param($queryUpdateStok, 'ii', $item['jumlah'], $item['id_produk']);
+        mysqli_stmt_execute($queryUpdateStok);
+        mysqli_stmt_close($queryUpdateStok);
     }
     mysqli_stmt_close($queryDetail);
 

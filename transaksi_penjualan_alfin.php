@@ -169,7 +169,9 @@ foreach ($_SESSION['keranjang'] as $item) {
             <button type="submit" <?php echo empty($_SESSION['keranjang']) ? 'disabled' : ''; ?>>Proses Transaksi</button>
         </form>
 
-        <a href="dashboard_alfin.php">Kembali ke Dashboard</a>
+        <form action="dashboard_alfin.php" method="GET" style="margin-top: 20px;">
+            <button type="submit" name="back">Kembali ke Dashboard</button>
+        </form>
     </div>
 
     <script>

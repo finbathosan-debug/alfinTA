@@ -32,6 +32,7 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
             <th>ID</th>
             <th>Nama Produk</th>
             <th>Harga</th>
+            <th>Stok</th>
             <th>Kategori</th>
             <th>Barcode</th>
             <th>Aksi</th>
@@ -46,6 +47,7 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
               <td><?php echo htmlspecialchars($dAlfin['id_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['nama_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['harga_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
+              <td><?php echo htmlspecialchars($dAlfin['stok_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><?php echo htmlspecialchars($dAlfin['kategori_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
               <td><svg id="barcode-<?php echo $dAlfin['id_produk_alfin']; ?>" style="width: 120px; height: 50px;"></svg></td>
               <td class="flex gap-10">
@@ -60,8 +62,12 @@ $resultAlfin = $koneksiAlfin->query($sqlAlfin);
       </table>
 
       <div style="margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="tambah_produk_alfin.php" class="btn-primary">+ Tambah Produk</a>
-        <a href="dashboard_alfin.php" class="btn-secondary">← Kembali ke Dashboard</a>
+        <form action="tambah_produk_alfin.php" method="GET">
+          <button type="submit" class="btn-primary" style="flex: 1;">+ Tambah Produk</button>
+        </form>
+        <form action="dashboard_alfin.php" method="GET">
+          <button type="submit" class="btn-primary" style="flex: 1;">← Kembali ke Dashboard</button>
+        </form>
       </div>
     </div>
   </div>

@@ -67,7 +67,7 @@ if (!$produk) {
 
             <div class="form-group">
                 <label for="stokAlfin">Stok</label>
-                <input type="number" id="stokAlfin" name="stokAlfin" placeholder="Masukkan stok produk" value="<?php echo htmlspecialchars($produk['stok_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
+                <input type="number" readonly id="stokAlfin" name="stokAlfin" placeholder="Masukkan stok produk" value="<?php echo htmlspecialchars($produk['stok_alfin'], ENT_QUOTES, 'UTF-8'); ?>" min="0" required>
             </div>
 
             <div class="form-group">
@@ -86,8 +86,10 @@ if (!$produk) {
             </div>
 
             <div style="display: flex; gap: 10px; margin-top: 30px;">
-                <button type="submit" class="btn-primary" style="flex: 1;">Simpan Perubahan</button>
-                <a href="produk_alfin.php" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</a>
+                <form action="produk_alfin.php" method="GET">
+                    <button type="submit" class="btn-primary" style="flex: 1;">Simpan Perubahan</button>
+                    <button type="submit" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</button>
+                </form>
             </div>
         </form>
     </div>

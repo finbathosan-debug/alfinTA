@@ -23,7 +23,6 @@ include 'koneksi_alfin.php';
             </div>
             <button type="submit" name="loginAlfin" class="btn-primary">Login</button>
         </form>
-        <p>Belum punya akun? <a href="register_alfin.php">Daftar di sini</a></p>
     </div>
 </body>
 </html>

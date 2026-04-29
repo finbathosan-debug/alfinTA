@@ -148,7 +148,9 @@ $resultHarian = mysqli_query($koneksiAlfin, $queryPenjualanHarian);
             </div>
 
             <div style="margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="dashboard_alfin.php" class="btn-secondary">← Kembali ke Dashboard</a>
+                <form action="dashboard_alfin.php" method="GET">
+                    <button type="submit" class="btn-secondary">← Kembali ke Dashboard</button>
+                </form>
                 <button onclick="window.print()" class="btn-primary">🖨️ Cetak Laporan</button>
             </div>
         </div>
