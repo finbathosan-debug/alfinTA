@@ -7,18 +7,37 @@ if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
     exit;
 }
 
+function isValidDate($date) {
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
+}
+
+$defaultEndDate = date('Y-m-d');
+$defaultStartDate = date('Y-m-d', strtotime('-6 days'));
+
+$startDate = isset($_GET['start_date']) && isValidDate($_GET['start_date']) ? $_GET['start_date'] : $defaultStartDate;
+$endDate = isset($_GET['end_date']) && isValidDate($_GET['end_date']) ? $_GET['end_date'] : $defaultEndDate;
+
+if ($startDate > $endDate) {
+    $temp = $startDate;
+    $startDate = $endDate;
+    $endDate = $temp;
+}
+
+$dateFilter = "WHERE DATE(t.tanggal_alfin) BETWEEN '" . $startDate . "' AND '" . $endDate . "'";
+
 // Query untuk total barang terjual
-$queryBarangTerjual = "SELECT SUM(jumlah_alfin) as total_barang FROM detail_transaksi_alfin";
+$queryBarangTerjual = "SELECT SUM(dt.jumlah_alfin) as total_barang FROM transaksi_alfin t JOIN detail_transaksi_alfin dt ON t.id_transaksi_alfin = dt.id_transaksi_alfin " . $dateFilter;
 $resultBarang = mysqli_query($koneksiAlfin, $queryBarangTerjual);
 $totalBarangTerjual = mysqli_fetch_assoc($resultBarang)['total_barang'] ?? 0;
 
 // Query untuk total transaksi
-$queryTotalTransaksi = "SELECT COUNT(*) as total_transaksi FROM transaksi_alfin";
+$queryTotalTransaksi = "SELECT COUNT(*) as total_transaksi FROM transaksi_alfin t " . $dateFilter;
 $resultTransaksi = mysqli_query($koneksiAlfin, $queryTotalTransaksi);
 $totalTransaksi = mysqli_fetch_assoc($resultTransaksi)['total_transaksi'] ?? 0;
 
 // Query untuk total pendapatan
-$queryTotalPendapatan = "SELECT SUM(total_alfin) as total_pendapatan FROM transaksi_alfin";
+$queryTotalPendapatan = "SELECT SUM(t.total_alfin) as total_pendapatan FROM transaksi_alfin t " . $dateFilter;
 $resultPendapatan = mysqli_query($koneksiAlfin, $queryTotalPendapatan);
 $totalPendapatan = mysqli_fetch_assoc($resultPendapatan)['total_pendapatan'] ?? 0;
 
@@ -32,12 +51,14 @@ $queryDetailPenjualan = "
         COUNT(DISTINCT dt.id_transaksi_alfin) as jumlah_transaksi
     FROM detail_transaksi_alfin dt
     JOIN produk_alfin p ON dt.id_produk_alfin = p.id_produk_alfin
+    JOIN transaksi_alfin t ON dt.id_transaksi_alfin = t.id_transaksi_alfin
+    " . $dateFilter . "
     GROUP BY p.id_produk_alfin, p.nama_produk_alfin, p.kategori_alfin
     ORDER BY jumlah_terjual DESC
 ";
 $resultDetail = mysqli_query($koneksiAlfin, $queryDetailPenjualan);
 
-// Query untuk penjualan harian (7 hari terakhir)
+// Query untuk penjualan harian
 $queryPenjualanHarian = "
     SELECT
         DATE(t.tanggal_alfin) as tanggal,
@@ -46,7 +67,7 @@ $queryPenjualanHarian = "
         SUM(dt.jumlah_alfin) as total_barang
     FROM transaksi_alfin t
     LEFT JOIN detail_transaksi_alfin dt ON t.id_transaksi_alfin = dt.id_transaksi_alfin
-    WHERE t.tanggal_alfin >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+    " . $dateFilter . "
     GROUP BY DATE(t.tanggal_alfin)
     ORDER BY tanggal DESC
 ";
@@ -65,7 +86,13 @@ $resultHarian = mysqli_query($koneksiAlfin, $queryPenjualanHarian);
 <body>
     <div class="container">
         <div style="margin-top: 20px;">
-            <h2>Laporan Penjualan</h2>
+            <div class="report-header" style="text-align: center; margin-bottom: 20px;">
+                <h1 style="margin-bottom: 8px;">Toko Alfin</h1>
+                <p style="margin-bottom: 4px; font-size: 1rem; color: #475569;">alfinTA - Aplikasi Kasir & Laporan Penjualan</p>
+                <p style="margin-bottom: 0; font-size: 0.95rem; color: #6b7280;">Alamat Toko atau Tagline</p>
+                <hr style="margin: 16px auto; width: 60%; border-color: #cbd5e1;" />
+                <h2 style="margin-top: 0;">Laporan Penjualan</h2>
+            </div>
 
             <!-- Ringkasan Statistik -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
@@ -83,6 +110,27 @@ $resultHarian = mysqli_query($koneksiAlfin, $queryPenjualanHarian);
                     <h3 style="margin: 0 0 10px 0; color: var(--primary-color);">Total Pendapatan</h3>
                     <p style="font-size: 2rem; font-weight: bold; margin: 0; color: var(--text-primary);">Rp <?php echo number_format($totalPendapatan, 0, ',', '.'); ?></p>
                 </div>
+            </div>
+
+            <!-- Tabel Ringkasan Laporan -->
+            <div style="margin-bottom: 30px;">
+                <h3>Ringkasan Laporan</h3>
+                <table style="margin-bottom: 0;">
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 700; padding: 12px; width: 40%;">Total Barang Terjual</td>
+                            <td style="padding: 12px;"><?php echo number_format($totalBarangTerjual, 0, ',', '.'); ?> item</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 700; padding: 12px;">Total Transaksi</td>
+                            <td style="padding: 12px;"><?php echo number_format($totalTransaksi, 0, ',', '.'); ?> transaksi</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 700; padding: 12px;">Total Pendapatan</td>
+                            <td style="padding: 12px;">Rp <?php echo number_format($totalPendapatan, 0, ',', '.'); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <!-- Penjualan Harian -->
@@ -163,12 +211,43 @@ $resultHarian = mysqli_query($koneksiAlfin, $queryPenjualanHarian);
             }
             body {
                 font-size: 12px;
+                background: white;
             }
             table {
                 font-size: 11px;
             }
+            .report-header h1,
+            .report-header h2,
+            .report-header p {
+                color: #000 !important;
+            }
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #d1d5db !important;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
         }
     </style>
+    <div class="filter-panel" style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between;">
+                <form method="GET" style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <label for="start_date" style="font-weight: 600;">Tanggal Mulai</label>
+                        <input type="date" id="start_date" name="start_date" value="<?php echo htmlspecialchars($startDate); ?>" required style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem;" />
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <label for="end_date" style="font-weight: 600;">Tanggal Selesai</label>
+                        <input type="date" id="end_date" name="end_date" value="<?php echo htmlspecialchars($endDate); ?>" required style="padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem;" />
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top: 1.25rem;">Filter</button>
+                </form>
+                <div style="font-size: 0.95rem; color: #475569;">Periode: <?php echo date('d/m/Y', strtotime($startDate)); ?> - <?php echo date('d/m/Y', strtotime($endDate)); ?></div>
+            </div>
 </body>
 
 </html>

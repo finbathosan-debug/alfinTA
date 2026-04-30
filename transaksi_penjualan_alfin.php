@@ -21,30 +21,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['barcode'])) {
         mysqli_stmt_execute($query);
         $result = mysqli_stmt_get_result($query);
         if ($produk = mysqli_fetch_assoc($result)) {
-            // Cek apakah produk sudah ada di keranjang
-            $found = false;
-            foreach ($_SESSION['keranjang'] as &$item) {
-                if ($item['id_produk'] == $produk['id_produk_alfin']) {
-                    $item['jumlah']++;
-                    $item['subtotal'] = $item['jumlah'] * $produk['harga_alfin'];
-                    $found = true;
-                    break;
-                }
-            }
-            if (!$found) {
-                $_SESSION['keranjang'][] = [
-                    'id_produk' => $produk['id_produk_alfin'],
-                    'nama' => $produk['nama_produk_alfin'],
-                    'harga' => $produk['harga_alfin'],
-                    'jumlah' => 1,
-                    'subtotal' => $produk['harga_alfin']
-                ];
-            }
-            echo json_encode(['success' => true, 'message' => 'Produk ditambahkan ke keranjang']);
+            $message = 'Produk ditambahkan ke keranjang';
+            mysqli_stmt_close($query);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Produk tidak ditemukan']);
+            mysqli_stmt_close($query);
+
+            $queryPartial = mysqli_prepare($koneksiAlfin, "SELECT * FROM produk_alfin WHERE barcode_alfin LIKE CONCAT('%', ?, '%')");
+            mysqli_stmt_bind_param($queryPartial, 's', $barcode);
+            mysqli_stmt_execute($queryPartial);
+            $resultPartial = mysqli_stmt_get_result($queryPartial);
+
+            $partialMatches = [];
+            while ($row = mysqli_fetch_assoc($resultPartial)) {
+                $partialMatches[] = $row;
+            }
+
+            if (count($partialMatches) === 1) {
+                $produk = $partialMatches[0];
+                $message = 'Produk ditambahkan ke keranjang (cocok sebagian barcode)';
+            } elseif (count($partialMatches) > 1) {
+                mysqli_stmt_close($queryPartial);
+                echo json_encode(['success' => false, 'message' => 'Barcode tidak unik. Gunakan barcode lengkap atau scan ulang.']);
+                exit;
+            } else {
+                mysqli_stmt_close($queryPartial);
+                echo json_encode(['success' => false, 'message' => 'Produk tidak ditemukan']);
+                exit;
+            }
+
+            mysqli_stmt_close($queryPartial);
         }
-        mysqli_stmt_close($query);
+
+        // Cek apakah produk sudah ada di keranjang
+        $found = false;
+        foreach ($_SESSION['keranjang'] as &$item) {
+            if ($item['id_produk'] == $produk['id_produk_alfin']) {
+                $item['jumlah']++;
+                $item['subtotal'] = $item['jumlah'] * $produk['harga_alfin'];
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $_SESSION['keranjang'][] = [
+                'id_produk' => $produk['id_produk_alfin'],
+                'nama' => $produk['nama_produk_alfin'],
+                'harga' => $produk['harga_alfin'],
+                'jumlah' => 1,
+                'subtotal' => $produk['harga_alfin']
+            ];
+        }
+        echo json_encode(['success' => true, 'message' => $message]);
         exit;
     }
 }
@@ -185,8 +212,8 @@ foreach ($_SESSION['keranjang'] as $item) {
                     type: "LiveStream",
                     target: document.querySelector('#interactive'),
                     constraints: {
-                        width: 640,
-                        height: 480,
+                        width: 1024,
+                        height: 768,
                         facingMode: "environment"
                     }
                 },
@@ -209,7 +236,11 @@ foreach ($_SESSION['keranjang'] as $item) {
             });
 
             Quagga.onDetected(function(result) {
-                const code = result.codeResult.code;
+                const code = result.codeResult.code ? result.codeResult.code.trim() : '';
+                console.log('Barcode terdeteksi:', code, result);
+                if (!code) {
+                    return;
+                }
                 document.getElementById('barcode-input').value = code;
                 stopScanning();
                 addByBarcode();
@@ -237,9 +268,11 @@ foreach ($_SESSION['keranjang'] as $item) {
             })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
                 if (data.success) {
+                    alert('Produk ditemukan: ' + data.message);
                     location.reload();
+                } else {
+                    alert('Produk tidak ditemukan. Barcode terbaca: ' + barcode + '\nPesan: ' + data.message);
                 }
             })
             .catch(error => console.error('Error:', error));

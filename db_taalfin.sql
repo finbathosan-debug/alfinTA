@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2026 at 04:46 AM
+-- Generation Time: Apr 30, 2026 at 10:07 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,27 @@ CREATE TABLE `detail_transaksi_alfin` (
   `subtotal_alfin` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `detail_transaksi_alfin`
+--
+
+INSERT INTO `detail_transaksi_alfin` (`id_detail_alfin`, `id_transaksi_alfin`, `id_produk_alfin`, `jumlah_alfin`, `subtotal_alfin`) VALUES
+(1, 1, 6, 3, 12000),
+(2, 2, 6, 2, 8000),
+(3, 2, 7, 2, 7000),
+(4, 3, 7, 1, 3500),
+(5, 4, 6, 1, 4000),
+(6, 5, 6, 1, 4000),
+(7, 6, 6, 1, 4000),
+(8, 7, 6, 1, 4000),
+(9, 8, 6, 1, 4000),
+(10, 9, 6, 1, 4000),
+(11, 10, 6, 1, 4000),
+(12, 11, 6, 1, 4000),
+(13, 12, 6, 1, 4000),
+(14, 13, 6, 1, 4000),
+(15, 14, 6, 1, 4000);
+
 -- --------------------------------------------------------
 
 --
@@ -54,7 +75,7 @@ CREATE TABLE `pengguna_alfin` (
 --
 
 INSERT INTO `pengguna_alfin` (`id_pengguna_alfin`, `nama_pengguna_alfin`, `username_alfin`, `password_alfin`, `role_alfin`) VALUES
-(4, 'alfin bathosan', 'alfinganteng97', '$2y$10$jZCDS4AKoZrnxlIRc1ZgkOeOviKleM9y0c79Qaj4c65EdcUtapd1C', 'admin');
+(5, 'noor', 'noor123', '$2y$10$rB0UG4f77ZEEKPrJQ/1s5eqjmniA9aAKOpHdKJo4oTIHkltypHFMC', 'kasir');
 
 -- --------------------------------------------------------
 
@@ -76,8 +97,9 @@ CREATE TABLE `produk_alfin` (
 --
 
 INSERT INTO `produk_alfin` (`id_produk_alfin`, `nama_produk_alfin`, `harga_alfin`, `stok_alfin`, `barcode_alfin`, `kategori_alfin`) VALUES
-(4, 'aqua', 6000, 100, 'BC4736082951', 'minuman'),
-(5, 'mie goreng', 3500, 99, 'BC3827461590', 'makanan');
+(6, 'Bolu Kukus Keju', 4000, 14, 'BC3095148726', 'Makanan'),
+(7, 'Bolu Ketan', 3500, 20, 'BC9683105274', 'Makanan'),
+(8, 'Kue Basah', 2000, 22, 'BC9408572613', '-');
 
 -- --------------------------------------------------------
 
@@ -91,6 +113,26 @@ CREATE TABLE `transaksi_alfin` (
   `tanggal_alfin` date NOT NULL,
   `total_alfin` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transaksi_alfin`
+--
+
+INSERT INTO `transaksi_alfin` (`id_transaksi_alfin`, `id_pengguna_alfin`, `tanggal_alfin`, `total_alfin`) VALUES
+(1, 5, '2026-04-30', 12000),
+(2, 5, '2026-04-30', 15000),
+(3, 5, '2026-04-30', 3500),
+(4, 5, '2026-04-30', 4000),
+(5, 5, '2026-04-30', 4000),
+(6, 5, '2026-04-30', 4000),
+(7, 5, '2026-04-30', 4000),
+(8, 5, '2026-04-30', 4000),
+(9, 5, '2026-04-30', 4000),
+(10, 5, '2026-04-30', 4000),
+(11, 5, '2026-04-30', 4000),
+(12, 5, '2026-04-30', 4000),
+(13, 5, '2026-04-30', 4000),
+(14, 5, '2026-04-30', 4000);
 
 --
 -- Indexes for dumped tables
@@ -131,25 +173,25 @@ ALTER TABLE `transaksi_alfin`
 -- AUTO_INCREMENT for table `detail_transaksi_alfin`
 --
 ALTER TABLE `detail_transaksi_alfin`
-  MODIFY `id_detail_alfin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detail_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `pengguna_alfin`
 --
 ALTER TABLE `pengguna_alfin`
-  MODIFY `id_pengguna_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pengguna_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `produk_alfin`
 --
 ALTER TABLE `produk_alfin`
-  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `transaksi_alfin`
 --
 ALTER TABLE `transaksi_alfin`
-  MODIFY `id_transaksi_alfin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_transaksi_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

@@ -1,4 +1,6 @@
 <?php
+require('fpdf/fpdf.php');
+
 include 'koneksi_alfin.php';
 session_start();
 
@@ -37,88 +39,73 @@ while ($row = mysqli_fetch_assoc($resultDetail)) {
     $details[] = $row;
 }
 mysqli_stmt_close($queryDetail);
+
+// Buat PDF
+class StrukPDF extends FPDF {
+    function Header() {
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 8, 'STRUK BELANJA', 0, 1, 'C');
+        $this->Ln(2);
+    }
+
+    function Footer() {
+        $this->SetY(-20);
+        $this->SetFont('Arial', '', 8);
+        $this->Cell(0, 5, 'Terima Kasih Atas Kunjungan Anda!', 0, 1, 'C');
+        $this->Cell(0, 5, 'alfinTA - Sistem Point of Sale', 0, 1, 'C');
+    }
+}
+
+// Hitung tinggi kertas struk berdasarkan jumlah item
+$rowHeight = 5;
+$detailCount = count($details);
+$pageHeight = max(110, 72 + ($detailCount * $rowHeight));
+
+// Inisialisasi PDF
+$pdf = new StrukPDF('P', 'mm', array(80, $pageHeight)); // Ukuran kertas thermal 80mm dengan tinggi dinamis
+$pdf->SetMargins(5, 5, 5);
+$pdf->SetAutoPageBreak(false);
+$pdf->AddPage();
+$pdf->SetFont('Arial', '', 9);
+
+// Header struk
+$pdf->Cell(0, 5, 'ID Transaksi: ' . $transaksi['id_transaksi_alfin'], 0, 1, 'L');
+$pdf->Cell(0, 5, 'Tanggal: ' . date('d/m/Y H:i', strtotime($transaksi['tanggal_alfin'])), 0, 1, 'L');
+$pdf->Cell(0, 5, 'Kasir: ' . $transaksi['nama_pengguna_alfin'], 0, 1, 'L');
+$pdf->Ln(2);
+
+// Garis pemisah
+$pdf->Cell(0, 0, '', 'T', 1);
+$pdf->Ln(1);
+
+// Header tabel
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->Cell(35, 5, 'Produk', 0, 0, 'L');
+$pdf->Cell(10, 5, 'Qty', 0, 0, 'C');
+$pdf->Cell(15, 5, 'Harga', 0, 0, 'R');
+$pdf->Cell(15, 5, 'Total', 0, 1, 'R');
+
+// Garis pemisah
+$pdf->Cell(0, 0, '', 'T', 1);
+$pdf->Ln(1);
+
+// Detail produk
+$pdf->SetFont('Arial', '', 8);
+foreach ($details as $detail) {
+    $namaProduk = substr($detail['nama_produk_alfin'], 0, 20); // Potong nama jika terlalu panjang
+    $pdf->Cell(35, 4, $namaProduk, 0, 0, 'L');
+    $pdf->Cell(10, 4, $detail['jumlah_alfin'], 0, 0, 'C');
+    $pdf->Cell(15, 4, 'Rp ' . number_format($detail['harga_alfin'], 0, ',', '.'), 0, 0, 'R');
+    $pdf->Cell(15, 4, 'Rp ' . number_format($detail['subtotal_alfin'], 0, ',', '.'), 0, 1, 'R');
+}
+
+$pdf->Ln(2);
+
+// Total
+$pdf->SetFont('Arial', 'B', 9);
+$pdf->Cell(60, 5, 'TOTAL:', 0, 0, 'R');
+$pdf->Cell(15, 5, 'Rp ' . number_format($transaksi['total_alfin'], 0, ',', '.'), 0, 1, 'R');
+
+// Output PDF
+$pdf->Output('struk_' . $transaksi['id_transaksi_alfin'] . '.pdf', 'I');
 ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struk Belanja - alfinTA</title>
-    <link rel="stylesheet" href="style_alfin.css">
-    <style>
-        .struk {
-            max-width: 400px;
-            margin: 0 auto;
-            border: 1px solid #000;
-            padding: 20px;
-            font-family: monospace;
-        }
-        .struk h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .struk table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .struk th, .struk td {
-            text-align: left;
-            padding: 5px;
-        }
-        .struk .total {
-            border-top: 1px solid #000;
-            font-weight: bold;
-        }
-        .struk .footer {
-            text-align: center;
-            margin-top: 20px;
-        }
-        @media print {
-            body * { visibility: hidden; }
-            .struk, .struk * { visibility: visible; }
-            .struk { position: absolute; left: 0; top: 0; }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="struk">
-            <h2>Struk Belanja</h2>
-            <p><strong>ID Transaksi:</strong> <?php echo htmlspecialchars($transaksi['id_transaksi_alfin']); ?></p>
-            <p><strong>Tanggal:</strong> <?php echo htmlspecialchars($transaksi['tanggal_alfin']); ?></p>
-            <p><strong>Kasir:</strong> <?php echo htmlspecialchars($transaksi['nama_pengguna_alfin']); ?></p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Produk</th>
-                        <th>Qty</th>
-                        <th>Harga</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($details as $detail): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($detail['nama_produk_alfin']); ?></td>
-                            <td><?php echo htmlspecialchars($detail['jumlah_alfin']); ?></td>
-                            <td>Rp <?php echo number_format($detail['harga_alfin']); ?></td>
-                            <td>Rp <?php echo number_format($detail['subtotal_alfin']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-                <tfoot>
-                    <tr class="total">
-                        <td colspan="3"><strong>Total</strong></td>
-                        <td><strong>Rp <?php echo number_format($transaksi['total_alfin']); ?></strong></td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div class="footer">
-                <p>Terima Kasih Atas Kunjungan Anda!</p>
-                <button onclick="window.print()">Cetak Struk</button>
-                <a href="transaksi_penjualan_alfin.php">Kembali ke Transaksi</a>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
