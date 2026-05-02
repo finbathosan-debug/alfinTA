@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2026 at 10:07 AM
+-- Generation Time: May 02, 2026 at 05:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54,7 +54,8 @@ INSERT INTO `detail_transaksi_alfin` (`id_detail_alfin`, `id_transaksi_alfin`, `
 (12, 11, 6, 1, 4000),
 (13, 12, 6, 1, 4000),
 (14, 13, 6, 1, 4000),
-(15, 14, 6, 1, 4000);
+(15, 14, 6, 1, 4000),
+(16, 15, 6, 1, 4000);
 
 -- --------------------------------------------------------
 
@@ -75,7 +76,8 @@ CREATE TABLE `pengguna_alfin` (
 --
 
 INSERT INTO `pengguna_alfin` (`id_pengguna_alfin`, `nama_pengguna_alfin`, `username_alfin`, `password_alfin`, `role_alfin`) VALUES
-(5, 'noor', 'noor123', '$2y$10$rB0UG4f77ZEEKPrJQ/1s5eqjmniA9aAKOpHdKJo4oTIHkltypHFMC', 'kasir');
+(5, 'noor', 'noor123', '$2y$10$rB0UG4f77ZEEKPrJQ/1s5eqjmniA9aAKOpHdKJo4oTIHkltypHFMC', 'kasir'),
+(7, 'alfin bathosan', 'alpin123', '$2y$10$PKSSWeO4PRHU6jvrDRz93uKEu/kzMfKcAkcFekd7MNg.ysBCRlDbi', 'admin');
 
 -- --------------------------------------------------------
 
@@ -97,7 +99,7 @@ CREATE TABLE `produk_alfin` (
 --
 
 INSERT INTO `produk_alfin` (`id_produk_alfin`, `nama_produk_alfin`, `harga_alfin`, `stok_alfin`, `barcode_alfin`, `kategori_alfin`) VALUES
-(6, 'Bolu Kukus Keju', 4000, 14, 'BC3095148726', 'Makanan'),
+(6, 'Bolu Kukus Keju', 4000, 13, 'BC3095148726', 'Makanan'),
 (7, 'Bolu Ketan', 3500, 20, 'BC9683105274', 'Makanan'),
 (8, 'Kue Basah', 2000, 22, 'BC9408572613', '-');
 
@@ -132,7 +134,8 @@ INSERT INTO `transaksi_alfin` (`id_transaksi_alfin`, `id_pengguna_alfin`, `tangg
 (11, 5, '2026-04-30', 4000),
 (12, 5, '2026-04-30', 4000),
 (13, 5, '2026-04-30', 4000),
-(14, 5, '2026-04-30', 4000);
+(14, 5, '2026-04-30', 4000),
+(15, 5, '2026-05-02', 4000);
 
 --
 -- Indexes for dumped tables
@@ -173,25 +176,25 @@ ALTER TABLE `transaksi_alfin`
 -- AUTO_INCREMENT for table `detail_transaksi_alfin`
 --
 ALTER TABLE `detail_transaksi_alfin`
-  MODIFY `id_detail_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_detail_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `pengguna_alfin`
 --
 ALTER TABLE `pengguna_alfin`
-  MODIFY `id_pengguna_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pengguna_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `produk_alfin`
 --
 ALTER TABLE `produk_alfin`
-  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_produk_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `transaksi_alfin`
 --
 ALTER TABLE `transaksi_alfin`
-  MODIFY `id_transaksi_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_transaksi_alfin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
