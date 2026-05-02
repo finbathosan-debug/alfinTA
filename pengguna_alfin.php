@@ -74,9 +74,15 @@ if (!empty($filterNama)) {
                     <td><?php echo htmlspecialchars($dAlfin['nama_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo htmlspecialchars($dAlfin['username_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
                     <td><?php echo htmlspecialchars($dAlfin['role_alfin'], ENT_QUOTES, 'UTF-8'); ?></td>
-                    <td class="flex gap-10">
-                      <a href="edit_alfin.php?id=<?php echo $dAlfin['id_pengguna_alfin']; ?>" class="btn-edit">Edit</a>
-                      <a href="confirm_delete_pengguna_alfin.php?id=<?php echo $dAlfin['id_pengguna_alfin']; ?>" class="btn-danger">Hapus</a>
+                    <td class="flex gap-10" style="flex-wrap: wrap; align-items: center;">
+                      <form action="edit_alfin.php" method="GET" style="margin: 0;">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($dAlfin['id_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <button type="submit" class="btn-edit">Edit</button>
+                      </form>
+                      <form action="confirm_delete_pengguna_alfin.php" method="GET" style="margin: 0;">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($dAlfin['id_pengguna_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <button type="submit" class="btn-danger">Hapus</button>
+                      </form>
                     </td>
                   </tr>
                   <?php
@@ -93,8 +99,12 @@ if (!empty($filterNama)) {
       </table>
 
       <div style="margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="tambah_pengguna_alfin.php" class="btn-primary">+ Tambah Pengguna</a>
-        <a href="dashboard_alfin.php" class="btn-secondary">← Kembali ke Dashboard</a>
+        <form action="tambah_pengguna_alfin.php" method="GET" style="margin: 0;">
+          <button type="submit" class="btn-primary">+ Tambah Pengguna</button>
+        </form>
+        <form action="dashboard_alfin.php" method="GET" style="margin: 0;">
+          <button type="submit" class="btn-secondary">← Kembali ke Dashboard</button>
+        </form>
       </div>
     </div>
   </div>

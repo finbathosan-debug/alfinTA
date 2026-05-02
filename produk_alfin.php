@@ -25,7 +25,7 @@ if (!empty($filterNama)) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kelola Produk - alfinTA</title>
   <link rel="stylesheet" href="style_alfin.css">
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="js/JsBarcode.all.min.js"></script>
 </head>
 
 <body>
@@ -83,9 +83,14 @@ if (!empty($filterNama)) {
                       <div style="font-size: 12px; color: #475569; margin-top: 6px; word-break: break-all; text-align: center;"><?php echo htmlspecialchars($dAlfin['barcode_alfin'], ENT_QUOTES, 'UTF-8'); ?></div>
                     </td>
                     <td class="flex gap-10" style="flex-wrap: wrap; align-items: center;">
-                      <button type="button" class="btn-secondary" onclick="printBarcodeLabel('<?php echo addslashes($dAlfin['barcode_alfin']); ?>', '<?php echo addslashes($dAlfin['nama_produk_alfin']); ?>')">Cetak Label</button>
-                      <a href="edit_produk_alfin.php?id=<?php echo $dAlfin['id_produk_alfin']; ?>" class="btn-edit">Edit</a>
-                      <a href="confirm_delete_produk_alfin.php?id=<?php echo $dAlfin['id_produk_alfin']; ?>" class="btn-danger">Hapus</a>
+                      <form action="edit_produk_alfin.php" method="GET" style="margin: 0;">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($dAlfin['id_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <button type="submit" class="btn-edit">Edit</button>
+                      </form>
+                      <form action="confirm_delete_produk_alfin.php" method="GET" style="margin: 0;">
+                        <input type="hidden" name="id" value="<?php echo htmlspecialchars($dAlfin['id_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
+                        <button type="submit" class="btn-danger">Hapus</button>
+                      </form>
                     </td>
                   </tr>
                   <?php
@@ -126,8 +131,7 @@ if (!empty($filterNama)) {
       }
       
       while ($d = mysqli_fetch_array($dataAlfin2)) {
-        $barcodeValue = addslashes($d['barcode_alfin']);
-        echo "JsBarcode('#barcode-" . $d['id_produk_alfin'] . "', '" . $barcodeValue . "', { format: 'CODE128', width: 2.2, height: 70, displayValue: false });";
+        echo "JsBarcode('#barcode-" . $d['id_produk_alfin'] . "', " . json_encode($d['barcode_alfin']) . ", { format: 'CODE128', width: 2.2, height: 70, displayValue: false });";
       }
       ?>
     });
@@ -150,13 +154,13 @@ if (!empty($filterNama)) {
               <svg id="printBarcode" style="width: 320px; height: 100px;"></svg>
               <div class="barcode-text">${barcode}</div>
             </div>
-            <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+            <script src="js/JsBarcode.all.min.js"><\/script>
             <script>
               document.addEventListener('DOMContentLoaded', function() {
                 JsBarcode('#printBarcode', ${JSON.stringify(barcode)}, { format: 'CODE128', width: 2.5, height: 100, displayValue: false });
                 window.print();
               });
-            </script>
+            <\/script>
           </body>
         </html>
       `);

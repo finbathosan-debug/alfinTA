@@ -89,7 +89,7 @@ $resultHarian = mysqli_query($koneksiAlfin, $queryPenjualanHarian);
             <div class="report-header" style="text-align: center; margin-bottom: 20px;">
                 <h1 style="margin-bottom: 8px;">Toko Alfin</h1>
                 <p style="margin-bottom: 4px; font-size: 1rem; color: #475569;">alfinTA - Aplikasi Kasir & Laporan Penjualan</p>
-                <p style="margin-bottom: 0; font-size: 0.95rem; color: #6b7280;">Alamat Toko atau Tagline</p>
+                <p style="margin-bottom: 0; font-size: 0.95rem; color: #6b7280;">Jl. Pakuhaji No. 123, Kota Cimahi</p>
                 <hr style="margin: 16px auto; width: 60%; border-color: #cbd5e1;" />
                 <h2 style="margin-top: 0;">Laporan Penjualan</h2>
             </div>
@@ -196,10 +196,14 @@ $resultHarian = mysqli_query($koneksiAlfin, $queryPenjualanHarian);
             </div>
 
             <div style="margin-top: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <form action="dashboard_alfin.php" method="GET">
+                <form action="dashboard_alfin.php" method="GET" style="margin: 0;">
                     <button type="submit" class="btn-secondary">← Kembali ke Dashboard</button>
                 </form>
-                <button onclick="window.print()" class="btn-primary">🖨️ Cetak Laporan</button>
+                <form action="laporan_penjualan_pdf.php" method="GET" target="_blank" style="margin: 0; display: inline-flex;">
+                    <input type="hidden" name="start_date" value="<?php echo htmlspecialchars($startDate); ?>">
+                    <input type="hidden" name="end_date" value="<?php echo htmlspecialchars($endDate); ?>">
+                    <button type="submit" class="btn-primary">🖨️ Cetak Laporan</button>
+                </form>
             </div>
         </div>
     </div>

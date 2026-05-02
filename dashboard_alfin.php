@@ -140,7 +140,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             <?php else: ?>
                 <li><a href="produk_alfin.php">📦 Produk</a></li>
                 <li><a href="transaksi_penjualan_alfin.php">💳 Transaksi</a></li>
-                <li><a href="laporan_penjualan_alfin.php">📊 Laporan</a></li>
             <?php endif; ?>
         </ul>
         <div class="navbar-right">

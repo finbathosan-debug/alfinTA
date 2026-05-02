@@ -57,7 +57,7 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
                 <div id="barcodeDisplay" style="text-align: center; margin-top: 10px;">
                     <svg id="barcode"></svg>
                     <p id="barcodeText" style="font-family: monospace; font-size: 12px; margin-top: 5px;"></p>
-                    <button type="button" onclick="printBarcode()" class="btn-secondary" style="margin-top: 10px;">Cetak Barcode</button>
+                    <button type="button" id="printBarcodeButton" class="btn-secondary" style="margin-top: 10px;">Cetak Barcode</button>
                 </div>
             </div>
 
@@ -65,6 +65,11 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
                 <button type="submit" class="btn-primary" style="flex: 1;">Simpan Produk</button>
                 <a href="produk_alfin.php" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</a>
             </div>
+        </form>
+
+        <form id="printBarcodeForm" action="barcode_label_pdf.php" method="GET" target="_blank" style="display: none;">
+            <input type="hidden" name="barcode" id="printBarcodeValue" value="<?php echo htmlspecialchars($defaultBarcode, ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="name" id="printBarcodeName" value="">
         </form>
     </div>
 
@@ -92,25 +97,25 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
             }
 
             updateBarcode(); // Initial generate
-        });
+            const productNameInput = document.getElementById('namaProdukAlfin');
+            const printBarcodeName = document.getElementById('printBarcodeName');
+            const printBarcodeValue = document.getElementById('printBarcodeValue');
+            const printBarcodeButton = document.getElementById('printBarcodeButton');
+            const printBarcodeForm = document.getElementById('printBarcodeForm');
 
-        function printBarcode() {
-            const printWindow = window.open('', '_blank');
-            const barcodeSvg = document.getElementById('barcode').outerHTML;
-            const barcodeText = document.getElementById('barcodeText').textContent;
-            printWindow.document.write(`
-                <html>
-                <head><title>Barcode - ${barcodeText}</title></head>
-                <body style="text-align: center; margin: 20px;">
-                    <h2>Barcode Produk</h2>
-                    ${barcodeSvg}
-                    <p style="font-family: monospace; font-size: 18px; margin-top: 10px;">${barcodeText}</p>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
+            printBarcodeName.value = productNameInput.value.trim() || 'Produk';
+            printBarcodeValue.value = barcodeInput.value;
+
+            productNameInput.addEventListener('input', function() {
+                printBarcodeName.value = this.value.trim() || 'Produk';
+            });
+
+            printBarcodeButton.addEventListener('click', function() {
+                printBarcodeValue.value = barcodeInput.value;
+                printBarcodeName.value = productNameInput.value.trim() || 'Produk';
+                printBarcodeForm.submit();
+            });
+        });
     </script>
 </body>
 

@@ -81,7 +81,7 @@ if (!$produk) {
                 <div id="barcodeDisplay" style="text-align: center; margin-top: 10px;">
                     <svg id="barcode"></svg>
                     <p id="barcodeText" style="font-family: monospace; font-size: 12px; margin-top: 5px;"></p>
-                    <button type="button" onclick="printBarcode()" class="btn-secondary" style="margin-top: 10px;">Cetak Barcode</button>
+                    <button type="button" id="printBarcodeButton" class="btn-secondary" style="margin-top: 10px;">Cetak Barcode</button>
                 </div>
             </div>
 
@@ -91,6 +91,11 @@ if (!$produk) {
                     <button type="submit" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</button>
                 </form>
             </div>
+        </form>
+
+        <form id="printBarcodeForm" action="barcode_label_pdf.php" method="GET" target="_blank" style="display: none;">
+            <input type="hidden" name="barcode" id="printBarcodeValue" value="<?php echo htmlspecialchars($produk['barcode_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="name" id="printBarcodeName" value="<?php echo htmlspecialchars($produk['nama_produk_alfin'], ENT_QUOTES, 'UTF-8'); ?>">
         </form>
     </div>
 
@@ -129,40 +134,25 @@ if (!$produk) {
             }
 
             updateBarcode(); // Initial generate
+            const productNameInput = document.getElementById('namaProdukAlfin');
+            const printBarcodeName = document.getElementById('printBarcodeName');
+            const printBarcodeValue = document.getElementById('printBarcodeValue');
+            const printBarcodeButton = document.getElementById('printBarcodeButton');
+            const printBarcodeForm = document.getElementById('printBarcodeForm');
+
+            printBarcodeName.value = productNameInput.value.trim() || 'Produk';
+            printBarcodeValue.value = barcodeInput.value;
+
+            productNameInput.addEventListener('input', function() {
+                printBarcodeName.value = this.value.trim() || 'Produk';
+            });
+
+            printBarcodeButton.addEventListener('click', function() {
+                printBarcodeValue.value = barcodeInput.value;
+                printBarcodeName.value = productNameInput.value.trim() || 'Produk';
+                printBarcodeForm.submit();
+            });
         });
-
-        function printBarcode() {
-            const barcodeSvg = document.getElementById('barcode');
-            const barcodeText = document.getElementById('barcodeText').textContent;
-            if (!barcodeSvg || !barcodeText) {
-                alert('Barcode belum dihasilkan.');
-                return;
-            }
-
-            const printWindow = window.open('', '_blank');
-            const svgContent = barcodeSvg.outerHTML;
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Print Barcode</title>
-                    <style>
-                        body { text-align: center; font-family: Arial, sans-serif; margin: 20px; }
-                        svg { margin: 20px auto; display: block; }
-                        p { font-size: 14px; font-family: monospace; }
-                    </style>
-                </head>
-                <body>
-                    <h2>Barcode Produk</h2>
-                    ${svgContent}
-                    <p>${barcodeText}</p>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.focus();
-            printWindow.print();
-            printWindow.close();
-        }
     </script>
 </body>
 
