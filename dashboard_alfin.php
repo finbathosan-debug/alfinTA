@@ -25,6 +25,12 @@ $totalStok = mysqli_query($koneksiAlfin, "SELECT SUM(stok_alfin) as total FROM p
 $dataStok = mysqli_fetch_assoc($totalStok);
 $stokTotal = $dataStok['total'] ?? 0;
 
+// Produk terlaris berdasarkan jumlah terjual
+$produkTerlarisQuery = mysqli_query($koneksiAlfin, "SELECT p.nama_produk_alfin, SUM(d.jumlah_alfin) AS total_terjual FROM detail_transaksi_alfin d JOIN produk_alfin p ON d.id_produk_alfin = p.id_produk_alfin GROUP BY d.id_produk_alfin ORDER BY total_terjual DESC LIMIT 1");
+$produkTerlaris = mysqli_fetch_assoc($produkTerlarisQuery);
+$produkTerlarisNama = $produkTerlaris['nama_produk_alfin'] ?? '-';
+$produkTerlarisJumlah = $produkTerlaris['total_terjual'] ?? 0;
+
 $countPengguna = 0;
 if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
     $totalPengguna = mysqli_query($koneksiAlfin, "SELECT COUNT(*) as total FROM pengguna_alfin");
@@ -173,6 +179,14 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
                     <h3>Total Stok</h3>
                     <div class="number"><?php echo $stokTotal; ?></div>
                     <p style="margin: 0; color: #95a5a6;">Unit tersedia</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Produk Terlaris</h3>
+                    <div class="number"><?php echo htmlspecialchars($produkTerlarisNama, ENT_QUOTES, 'UTF-8'); ?></div>
+                    <p style="margin: 0; color: #95a5a6;">
+                        Terjual <?php echo $produkTerlarisJumlah; ?> unit
+                    </p>
                 </div>
 
                 <div class="stat-card">

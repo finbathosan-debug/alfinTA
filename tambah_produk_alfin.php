@@ -63,7 +63,7 @@ $defaultBarcode = 'BC' . substr(str_shuffle('0123456789'), 0, 12);
 
             <div style="display: flex; gap: 10px; margin-top: 30px;">
                 <button type="submit" class="btn-primary" style="flex: 1;">Simpan Produk</button>
-                <a href="produk_alfin.php" class="btn-secondary" style="flex: 1; text-align: center; line-height: 1.5;">Batal</a>
+                <button type="button" class="btn-primary" style="flex: 1; text-align: center; line-height: 1.5;" onclick="window.location.href='produk_alfin.php'">Batal</button>
             </div>
         </form>
 
