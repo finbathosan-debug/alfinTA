@@ -81,7 +81,6 @@ if (!$produk) {
                 <div id="barcodeDisplay" style="text-align: center; margin-top: 10px;">
                     <svg id="barcode"></svg>
                     <p id="barcodeText" style="font-family: monospace; font-size: 12px; margin-top: 5px;"></p>
-                    <button type="button" id="printBarcodeButton" class="btn-secondary" style="margin-top: 10px;">Cetak Barcode</button>
                 </div>
             </div>
 

@@ -142,6 +142,8 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                 <li><a href="pengguna_alfin.php">👥 Kelola Pengguna</a></li>
                 <li><a href="produk_alfin.php">📦 Kelola Produk</a></li>
+                <li><a href="barang_masuk_alfin.php">⬆️ Barang Masuk</a></li>
+                <li><a href="barang_keluar_alfin.php">⬇️ Barang Keluar</a></li>
                 <li><a href="laporan_penjualan_alfin.php">📊 Laporan Penjualan</a></li>
             <?php else: ?>
                 <li><a href="produk_alfin.php">📦 Produk</a></li>

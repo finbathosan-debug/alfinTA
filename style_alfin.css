@@ -86,7 +86,12 @@ header h1 {
 
 /*typography*/
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: #1e293b;
     font-weight: 600;
     line-height: 1.3;
@@ -367,42 +372,123 @@ tbody td {
 
 /* utility */
 
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-left { text-align: left; }
+.text-center {
+    text-align: center;
+}
 
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 0.75rem; }
-.mt-4 { margin-top: 1rem; }
-.mt-5 { margin-top: 1.25rem; }
-.mt-6 { margin-top: 1.5rem; }
+.text-right {
+    text-align: right;
+}
 
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 0.75rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-5 { margin-bottom: 1.25rem; }
-.mb-6 { margin-bottom: 1.5rem; }
+.text-left {
+    text-align: left;
+}
 
-.flex { display: flex; }
-.flex-center { display: flex; justify-content: center; align-items: center; }
-.flex-between { display: flex; justify-content: space-between; align-items: center; }
-.flex-column { display: flex; flex-direction: column; }
+.mt-1 {
+    margin-top: 0.25rem;
+}
 
-.gap-1 { gap: 0.25rem; }
-.gap-2 { gap: 0.5rem; }
-.gap-3 { gap: 0.75rem; }
-.gap-4 { gap: 1rem; }
-.gap-5 { gap: 1.25rem; }
-.gap-6 { gap: 1.5rem; }
+.mt-2 {
+    margin-top: 0.5rem;
+}
 
-.w-full { width: 100%; }
-.h-full { height: 100%; }
+.mt-3 {
+    margin-top: 0.75rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mt-5 {
+    margin-top: 1.25rem;
+}
+
+.mt-6 {
+    margin-top: 1.5rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+    margin-bottom: 0.75rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-5 {
+    margin-bottom: 1.25rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.gap-1 {
+    gap: 0.25rem;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-3 {
+    gap: 0.75rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.gap-5 {
+    gap: 1.25rem;
+}
+
+.gap-6 {
+    gap: 1.5rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
 
 /* responsif desain */
 
 @media (max-width: 768px) {
+
     .content-wrapper,
     .dashboard-wrapper {
         padding: 2rem;
@@ -457,6 +543,7 @@ tbody td {
 }
 
 @media (max-width: 480px) {
+
     .content-wrapper,
     .dashboard-wrapper {
         padding: 1.5rem;
@@ -476,5 +563,154 @@ tbody td {
     select {
         padding: 0.75rem;
         font-size: 16px;
+    }
+
+    /* =========================================
+   STYLE KHUSUS KELOLA PENGGUNA
+========================================= */
+    .user-header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .user-search-form {
+        display: flex;
+        gap: 10px;
+        flex: 1;
+        max-width: 400px;
+    }
+
+    .user-search-input {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+    .user-search-input:focus {
+        border-color: #6366f1;
+    }
+
+    .user-table-container {
+        overflow-x: auto;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .user-styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+    .user-styled-table thead tr {
+        background-color: #f1f5f9;
+        color: #475569;
+        text-align: left;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .user-styled-table th,
+    .user-styled-table td {
+        padding: 15px;
+        border-bottom: 1px solid #e2e8f0;
+        vertical-align: middle;
+    }
+
+    .user-styled-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    /* Badge Role */
+    .role-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+    }
+
+    .role-admin {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+    .role-kasir {
+        background: #dcfce3;
+        color: #10b981;
+    }
+
+    /* Tombol Aksi */
+    .action-btns {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: bold;
+        color: white;
+        transition: opacity 0.2s;
+    }
+
+    .btn-sm:hover {
+        opacity: 0.8;
+    }
+
+    .btn-edit {
+        background-color: #f59e0b;
+    }
+
+    .btn-delete {
+        background-color: #ef4444;
+    }
+
+    /* Paginasi */
+    .user-pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    .user-page-link {
+        padding: 8px 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #334155;
+        font-weight: 600;
+        transition: all 0.2s;
+        background: white;
+    }
+
+    .user-page-link:hover {
+        background: #f1f5f9;
+    }
+
+    .user-page-link.active {
+        background: #6366f1;
+        color: white;
+        border-color: #6366f1;
     }
 }

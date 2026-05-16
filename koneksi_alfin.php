@@ -1,12 +1,15 @@
 <?php
-// Koneksi database (gunakan nama variabel yang konsisten di seluruh aplikasi)
-$koneksiAlfin = mysqli_connect("localhost", "root", "", "db_taalfin");
+// 1. SET TIMEZONE GLOBAL (Mencakup semua file yang include koneksi ini)
+date_default_timezone_set('Asia/Jakarta');
 
-// Cek koneksi
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "db_taalfin"; // Sesuaikan dengan nama DB Anda
+
+$koneksiAlfin = mysqli_connect($host, $user, $pass, $db);
+
 if (!$koneksiAlfin) {
-	die("Koneksi database gagal: " . mysqli_connect_error());
+	die("Koneksi gagal: " . mysqli_connect_error());
 }
-
-// Pastikan charset modern
-mysqli_set_charset($koneksiAlfin, 'utf8mb4');
 ?>
